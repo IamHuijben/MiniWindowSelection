@@ -71,13 +71,13 @@ class Model(nn.Module):
 
         # Initialize everything related to the hyper-network and mini-window selection
         self.sampling_type = sampling_type
-        assert self.sampling_type in ['learned', 'random']
+        assert self.sampling_type in ['active', 'random']
         self.k = hypernet_settings.get('k', 5)
         assert self.k > 0
         
         self.N = self.nr_data_channels*self.mini_window_temporal_reduction_factor
         
-        if self.sampling_type == 'learned':
+        if self.sampling_type == 'active':
             self.build_hypernet(self.nr_data_channels, hypernet_settings['output_channels'], hypernet_settings['kernel_sizes'], hypernet_settings['poolings'])
         self.gumbel_softmax_temperature = hypernet_settings['gumbel_softmax_temperature']
         self.init_GS_temperature()
@@ -151,7 +151,7 @@ class Model(nn.Module):
         # Returns a sampling matrix of size: [bs, k, N]
 
         # In case of training or using random sampling (both during training and validation), add Gumbel noise to make sure that the sampling is stochastic.
-        if (self.training == True and self.sampling_type == 'learned') or self.sampling_type == 'random':
+        if (self.training == True and self.sampling_type == 'active') or self.sampling_type == 'random':
             gumbel_noise = self.gumbel.sample(list(pred_logits.shape)).to(pred_logits.device)
             perturbed_logits = pred_logits + gumbel_noise
         else: # During evaluation we want to simple select the top-k logits without noise

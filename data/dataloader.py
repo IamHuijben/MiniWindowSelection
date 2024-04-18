@@ -29,8 +29,7 @@ class synthetic_dataset(Dataset):
         
         self.data_fold = data_fold.lower()
         assert self.data_fold in ['train', 'val', 'test']
-        
-        # load_dir = Path(r"\\131.155.35.77\OpSleep\data\synthetic_2ch_EEG\20230111_morespindles") / self.data_fold
+
         if self.data_fold == 'train':
             self.include_subjects = [load_dir / f's{idx}.h5' for idx in np.arange(100)]
         elif self.data_fold == 'val':
