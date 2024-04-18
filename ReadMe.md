@@ -1,4 +1,5 @@
-This repository contains all code to reproduce the paper about mini-window selection in multi-channel time series.
+This repository contains the model implementation belonging to the paper "Attention on Sleep Stage Specific Characteristics", published at the 46th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC).
+The synthetic data can also be created from this repository, in order to train a model yourself. 
 
 #### Dependencies:
 
@@ -13,32 +14,25 @@ pip install numpy, mne, h5py, scipy, matplotlib, sklearn
 Then activate the environment with: conda activate my_env
 
 #### Running an experiment
-First run generate_artificial_data.py to acquire the same artificial data as we used in the paper.
+
+##### Data 
+Run generate_artificial_data.py to acquire the same artificial data as we used in the paper.
 In the paper we used the first 100 outputs for training, the next 50 for validation, and the last 50 for testing.
 
-
-##### Data processing
-The physiological and audio experiments start with running preprocessing/physiological_data_main.py or preprocessing/audio_main.py scripts to acquire the data in the right format. 
-Both datasets first need to be downloaded locally to run these scripts.
-The toy experiments do not need preprocessing anymore, as we published the generated dataset in the data/random_walk_freq_sinusoids_processed folder. However, to rerun or change preprocessing, you can use preprocessing/synthetic_data_main.py
+The data from the Healthbed dataset as used in this study are available from the Sleep Medicine Centre Kempenhaeghe upon reasonable request via M. van Gilst (m.m.v.gilst@tue.nl). The data can be requested by presenting a scientific research question and by fulfilling all the regulations concerning thesharing of the human data (e.g. privacy regulations). The details ofthe agreement will depend on the purpose of the data request andthe entity that is requesting the data (e.g. research institute or corpo-rate). Each request will be evaluated by the Kempenhaeghe Research Board and, depending on the request, approval from an independent medical ethical committee might be required.
 
 ##### Running a model
-After having the data in place, you can train one of the different models from the experiments/<model_type>/<experiment_type>/main.py files for the different models and experiments. 
-The trained model will automatically be saved in your working directory.
-Note that training the SOM, supervised classifier, or running the fit_pca_kmeans.py script require an already trained CPC model to run on top of.
-
-All model folders contain experiment_specific.yml files that specify all the settings as used in the paper.
+To train a model, use the trainning.ipynb notebook.
 
 <!-- #### Citation
 Please cite the following paper if you find this code useful in your work:
 
 ```
 @inproceedings{huijben2023,
-  title={Som-cpc: Unsupervised Contrastive Learning with Self-Organizing Maps for Structured Representations of High-Rate Time Series},
-  author={Huijben, Iris AM and Nijdam, Arthur Andreas and Overeem, Sebastiaan and Van Gilst, Merel M and Van Sloun, Ruud},
-  booktitle={International Conference on Machine Learning},
-  pages={14132--14152},
-  year={2023},
-  organization={PMLR}
+  title={Attention on Sleep Stage Specific Characteristics},
+  author={Huijben, Iris AM and Overeem, Sebastiaan and Van Gilst, Merel M and Van Sloun, Ruud}, 
+  booktitle={46th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)},
+  pages={},
+  year={2024},
 }
 ``` -->
