@@ -65,7 +65,7 @@ class Model(nn.Module):
     def __init__(self, hypernet_settings, encoder_settings, sampling_type, nr_classes):
         super().__init__()
 
-        self.mini_window_temporal_reduction_factor = 6 # 6 (multi-channel) mini-windows fit in 30 seconds
+        self.mini_window_temporal_reduction_factor = hypernet_settings.get('mini_window_temporal_reduction_factor', 6) # The number of (multi-channel) mini-windows that fit in a window of windo_L length.
         self.nr_data_channels, self.window_L = hypernet_settings['input_dim']
         self.nr_classes = nr_classes
 
@@ -89,11 +89,11 @@ class Model(nn.Module):
 
 
     def init_GS_temperature(self):
-        self.decay_factor_GS = torch.as_tensor((np.log(self.gumbel_softmax_temperature['start'])-np.log(self.gumbel_softmax_temperature['end']))/(self.gumbel_softmax_temperature['nr_epochs']))
+        self.decay_factor_GS = torch.as_tensor((np.log(self.gumbel_softmax_temperature['start'])-np.log(self.gumbel_softmax_temperature['end']))/(self.gumbel_softmax_temperature['nr_iters']))
         self.register_buffer('GS_temp', torch.as_tensor(self.gumbel_softmax_temperature.get('start', 1.0))) 
 
-    def update_GS_temperature(self, epoch):
-        self.GS_temp.data = torch.maximum(torch.as_tensor(self.gumbel_softmax_temperature['end']),self.gumbel_softmax_temperature['start'] * np.exp(-self.decay_factor_GS*epoch))
+    def update_GS_temperature(self, iteration):
+        self.GS_temp.data = torch.maximum(torch.as_tensor(self.gumbel_softmax_temperature['end']),self.gumbel_softmax_temperature['start'] * np.exp(-self.decay_factor_GS*iteration))
 
     def build_hypernet(self, input_channels, output_channels, kernel_sizes, poolings):
         self.hypernet = nn.Sequential()
@@ -183,15 +183,15 @@ class Model(nn.Module):
         return sample_matrix, topk_indices
     
 
-    def forward(self, x, epoch):
+    def forward(self, x, iteration=None):
         """
         x (torch.Tensor): Input data containing a batch of windows of shape [bs, ch, T]
-        epoch (int): The current epoch, used to update the Gumbel Softmax temperature
+        iteration (int): The current training iteration, used to update the Gumbel Softmax temperature. Can be None during inference.
 
         Returns:
             log_softmax_output (torch.Tensor): The log softmax prediction for each of the classes for every element in the batch. Shape [bs, nr_classes]
         """
-        if self.training: self.update_GS_temperature(epoch)
+        if self.training: self.update_GS_temperature(iteration)
 
         bs = x.shape[0] 
 
@@ -211,5 +211,5 @@ class Model(nn.Module):
         z = self.encoder(z_intermediate) #[bs, out_channels, 1] 
 
         log_softmax_output = self.classifier(torch.swapaxes(z, -1, -2)).squeeze() #[bs, nr_classes]
-        return log_softmax_output
+        return log_softmax_output, sampling_matrix
 
