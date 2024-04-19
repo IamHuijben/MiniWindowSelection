@@ -1,4 +1,5 @@
-This repository contains the model implementation belonging to the paper "Attention on Sleep Stage Specific Characteristics", published at the 46th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC).
+This repository contains the model implementation belonging to the paper "_Attention on Sleep Stage Specific Characteristics_", published at the 46th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC).
+
 The synthetic data can also be created from this repository, in order to train a model yourself. 
 
 #### Dependencies:
