@@ -1,6 +1,5 @@
 
 import numpy as np
-from datetime import date
 import h5py
 import mne
 from mne.time_frequency import morlet
