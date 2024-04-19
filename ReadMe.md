@@ -31,11 +31,12 @@ To run the model with random, instead of active, mini-window selection, change t
 #### Citation
 Please cite the following paper if you find this code useful in your work:
 
-@inproceedings{huijben2023,
+``` -->
+@inproceedings{huijben2024,
   title={Attention on Sleep Stage Specific Characteristics},
-  author={Huijben, Iris AM and Overeem, Sebastiaan and Van Gilst, Merel M and Van Sloun, Ruud}, 
+  author={Huijben, Iris AM and Overeem, Sebastiaan and van Gilst, Merel M and van Sloun, Ruud JG}, 
   booktitle={46th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)},
   pages={},
   year={2024},
 }
-``` -->
+```
