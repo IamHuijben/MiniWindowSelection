@@ -17,7 +17,7 @@ Then activate the environment with: conda activate my_env
 #### Running an experiment
 
 ##### Data 
-Run generate_artificial_data.py to acquire the same artificial data as we used in the paper.
+Run data/generate_artificial_data.py to acquire the same artificial data as we used in the paper.
 In the paper we used the first 100 outputs for training, the next 50 for validation, and the last 50 for testing, which is automatically handled in the dataloader.
 
 The data from the Healthbed dataset as used in this study are available from the Sleep Medicine Centre Kempenhaeghe upon reasonable request via M. van Gilst (m.m.v.gilst@tue.nl). The data can be requested by presenting a scientific research question and by fulfilling all the regulations concerning thesharing of the human data (e.g. privacy regulations). The details ofthe agreement will depend on the purpose of the data request andthe entity that is requesting the data (e.g. research institute or corpo-rate). Each request will be evaluated by the Kempenhaeghe Research Board and, depending on the request, approval from an independent medical ethical committee might be required.
